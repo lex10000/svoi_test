@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class CompanyController extends BaseController
      */
     public function index()
     {
-        $companies = Company::all();
+        $companies = CompanyResource::collection(Company::all());
 
         return $this->sendResponse($companies, 'Companies retrieved successfully.');
     }
@@ -57,7 +58,7 @@ class CompanyController extends BaseController
      */
     public function show($id)
     {
-        $company = Company::findOrFail($id);
+        $company = new CompanyResource(Company::findOrFail($id));
 
         return $this->sendResponse($company, 'Company retrieved successfully.');
     }

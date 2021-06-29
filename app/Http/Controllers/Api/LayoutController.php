@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\LayoutResource;
 use App\Models\Layout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +17,7 @@ class LayoutController extends BaseController
      */
     public function index()
     {
-        $layouts = Layout::all();
+        $layouts = LayoutResource::collection(Layout::all());
 
         return $this->sendResponse($layouts, 'layouts retrieved successfully.');
     }
@@ -62,7 +63,7 @@ class LayoutController extends BaseController
      */
     public function show($id)
     {
-        $layout = Layout::findOrFail($id);
+        $layout = new LayoutResource(Layout::findOrFail($id));
 
         return $this->sendResponse($layout, 'layout retrieved successfully.');
     }
